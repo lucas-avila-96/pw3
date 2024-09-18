@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    
+    <servlet>
+        <servlet-name>MiServlet</servlet-name>
+        <servlet-class>MiServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>Ejercicio4</servlet-name>
+        <servlet-class>Ejercicio4</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>RespuestaServlet</servlet-name>
+        <servlet-class>RespuestaServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MiServlet</servlet-name>
+        <url-pattern>/MiServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>Ejercicio4</servlet-name>
+        <url-pattern>/Ejercicio4</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>RespuestaServlet</servlet-name>
+        <url-pattern>/respuesta</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>inicio.html</welcome-file>
+    </welcome-file-list>
+</web-app>
