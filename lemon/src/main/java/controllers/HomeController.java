@@ -35,22 +35,6 @@ public class HomeController extends HttpServlet {
                 case "/MisClases":
                     break;
                 
-                /*
-                 
-                   
-                case "/ComprarClases":
-                    int planId = Integer.parseInt(request.getParameter("planId")); // Obtener el ID del plan desde la solicitud
-                    // Lógica para realizar la compra del plan
-                    // Por ejemplo, podrías llamar a un método en tu fachada para agregar una suscripción
-                    boolean success = PlansFacade.comprarClase(planId, usuarioId); // Implementa este método según tu lógica
-                    if (success) {
-                        request.setAttribute("mensaje", "Compra realizada con éxito!");
-                    } else {
-                        request.setAttribute("mensaje", "Error al realizar la compra. Intenta nuevamente.");
-                    }
-                    url = "/WEB-INF/views/resultado_compra.jsp"; // Cambia a tu vista de resultado de compra
-                    break;
-*/
             }
 
             request.getRequestDispatcher(url).forward(request, response);

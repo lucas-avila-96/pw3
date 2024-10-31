@@ -171,7 +171,7 @@
         %>
             <div class="no-suscripcion">
                 <p>No tienes suscripciones activas</p>
-                <a href="select_plan.jsp" class="btn">Comprar clases</a>
+                <a href="plans" class="btn">Comprar clases</a>
             </div>
         <%
             } else {
@@ -180,7 +180,7 @@
             <div class="progress-bar">
                 <div class="progress" style="width: <%= clasesTotales > 0 ? (clasesRestantes * 100 / clasesTotales) : 0 %>%"></div>
             </div>
-            <a href="select_plan.jsp" class="btn">Comprar clases</a>
+            <a href="plans" class="btn">Comprar clases</a>
         <%
             }
         %>
