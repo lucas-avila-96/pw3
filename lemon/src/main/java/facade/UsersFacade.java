@@ -93,7 +93,14 @@ public class UsersFacade extends AbstractFacade<Users> {
                  .getResultList();
     }
        
-
+public Users findUserById(Integer userId) {
+        try {
+            return em.find(Users.class, userId); // Busca el usuario por ID
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // Manejo de errores simple, puedes mejorarlo según tus necesidades
+        }
+    }
     
 
     

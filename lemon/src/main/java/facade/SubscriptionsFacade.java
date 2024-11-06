@@ -64,16 +64,19 @@ public boolean assignSubscriptionToUser(String userId, String planId) {
     }
 }
 
-    // Método para obtener la suscripción de un usuario por ID
-    public Subscription getSubscriptionByUserId(int userId) {
-        try {
-            return em.createQuery("SELECT s FROM Subscription s WHERE s.user.id = :userId", Subscription.class)
-                     .setParameter("userId", userId)
-                     .getSingleResult();
-        } catch (Exception e) {
-            return null; // Si no encuentra la suscripción, retorna null
-        }
+// Método para obtener la suscripción de un usuario por ID
+public Subscriptions getSubscriptionByUserId(int userId) {
+    try {
+        return em.createQuery("SELECT s FROM Subscriptions s WHERE s.userId.id = :userId", Subscriptions.class)
+                 .setParameter("userId", userId)
+                 .getSingleResult();
+    } catch (Exception e) {
+        System.out.println("Error al obtener la suscripción: " + e.getMessage());
+        return null; // Si no encuentra la suscripción, retorna null
     }
+}
+
+
 
     // Método para obtener la cantidad de clases de un plan
     public int getClassQuantityForPlan(int planId) {
