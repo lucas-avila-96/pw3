@@ -9,27 +9,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.HeuristicMixedException;
-import jakarta.transaction.HeuristicRollbackException;
-import jakarta.transaction.RollbackException;
-import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "UserController", 
-            loadOnStartup = 1, 
-            urlPatterns = {"/registerUser","/login","/signup","/addUser"})
+@WebServlet(name = "UserController",
+        loadOnStartup = 1,
+        urlPatterns = {"/registerUser", "/login", "/addUser"})
 public class UserController extends HttpServlet {
 
     @Inject
     private UsersFacade userFacade; // Inyección de UserFacade
-    
-    @Resource
-    private UserTransaction utx;    
 
+    @Resource
+    private UserTransaction utx;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -50,33 +45,32 @@ public class UserController extends HttpServlet {
 
         try {
             switch (pathUsuario) {
-                
+
                 case "/registerUser":
                     url = "/WEB-INF/views/signup.jsp";
                     break;
-  
-                    
-                case "/addUser":
-                      // Obtener datos del formulario de registro
-                String firstName = request.getParameter("first_name");
-                String lastName = request.getParameter("last_name");
-                String dni = request.getParameter("dni");
-                String email = request.getParameter("email");
-                String password = request.getParameter("password");
-                String userType = request.getParameter("user_type");
 
-                // Intentar registrar el usuario
-                boolean registered = userFacade.registerUser(firstName, lastName, dni, email, password, userType);
-                if (registered) {
-                    url = "/WEB-INF/views/signup.jsp"; // Redirigir al login en caso de éxito
-                } else {
-                    request.setAttribute("errorMessage", "El usuario ya existe.");
-                    url = "/WEB-INF/views/signup.jsp"; // Volver a la página de registro en caso de error
-                }
-                
-                break;
-                    
-                    case "/login":
+                case "/addUser":
+                    // Obtener datos del formulario de registro
+                    String firstName = request.getParameter("first_name");
+                    String lastName = request.getParameter("last_name");
+                    String dni = request.getParameter("dni");
+                    String email = request.getParameter("email");
+                    String password = request.getParameter("password");
+                    String userType = request.getParameter("user_type");
+
+                    // Intentar registrar el usuario
+                    boolean registered = userFacade.registerUser(firstName, lastName, dni, email, password, userType);
+                    if (registered) {
+                        url = "/WEB-INF/views/signup.jsp"; // Redirigir al login en caso de éxito
+                    } else {
+                        request.setAttribute("errorMessage", "El usuario ya existe.");
+                        url = "/WEB-INF/views/signup.jsp"; // Volver a la página de registro en caso de error
+                    }
+
+                    break;
+
+                case "/login":
                     String dniLogin = request.getParameter("dni");
                     String passwordLogin = request.getParameter("password");
 
@@ -85,17 +79,20 @@ public class UserController extends HttpServlet {
                     if (userLogin != null) {
                         request.getSession().setAttribute("userId", userLogin.getId());
                         request.getSession().setAttribute("userType", userLogin.getUserType());
-                        // Redirigir según el tipo de usuario
+
                         if (userLogin.getUserType().equals("admin")) {
-                    url = "/WEB-INF/views/admin.jsp"; 
+                            url = "/WEB-INF/views/adminHome.jsp";
                         } else {
-                    url = "/WEB-INF/views/home.jsp";
+                            // Redirigir al controlador HomeController para ejecutar la lógica de MisClases
+                            response.sendRedirect(request.getContextPath() + "/MisClases");
+                            return; // Termina el proceso para evitar el reenvío adicional
                         }
                     } else {
                         request.setAttribute("errorMessage", "DNI o contraseña incorrectos");
-                    url = "/WEB-INF/views/login.jsp";
+                        url = "/WEB-INF/views/login.jsp";
                     }
                     break;
+
             }
 
             if (url != null) {

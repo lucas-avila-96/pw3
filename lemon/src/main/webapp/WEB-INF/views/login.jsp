@@ -89,7 +89,7 @@
                 <button type="submit">Iniciar Sesión</button>
             </div>
             <div class="signup-link">
-                <a href="signup.jsp">¿No tienes cuenta? Regístrate aquí</a>
+                <a href="registerUser">¿No tienes cuenta? Regístrate aquí</a>
             </div>
         </form>
     </div>

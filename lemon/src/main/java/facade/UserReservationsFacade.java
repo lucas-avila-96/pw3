@@ -8,6 +8,8 @@ import entities.UserReservations;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -27,5 +29,10 @@ public class UserReservationsFacade extends AbstractFacade<UserReservations> {
     public UserReservationsFacade() {
         super(UserReservations.class);
     }
-    
+        public List<UserReservations> getAttendanceForToday() {
+        Date today = new Date();
+        return em.createQuery("SELECT ur FROM UserReservations ur WHERE DATE(ur.reservationDate) = DATE(:today)", UserReservations.class)
+                 .setParameter("today", today)
+                 .getResultList();
+    }
 }

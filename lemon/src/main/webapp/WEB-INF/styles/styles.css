@@ -1,0 +1,115 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 31, 2024, 9:24:06 AM
+    Author     : Lucas
+*/
+
+       body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            padding: 20px;
+        }
+        .main-content {
+            margin-left: 300px;
+            padding: 20px;
+        }
+        
+        
+.mis-clases-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px 0;
+}
+
+.mis-clases-card h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4A4A4A; /* Color similar al título en Flutter */
+}
+
+.no-suscripcion {
+    margin: 12px 0;
+}
+
+.no-suscripcion p {
+    font-size: 16px;
+    color: #757575; /* Color de información */
+}
+
+.btn {
+    display: inline-block;
+    background-color: #13212E;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 12px;
+}
+
+.progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.progress {
+    background-color: #13212E; /* Color de progreso */
+    height: 100%;
+    transition: width 0.3s;
+}
+
+
+
+.main-content {
+    padding: 20px;
+}
+
+.plan-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.plan-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 300px; /* Flex para que se ajusten en diferentes tamaños de pantalla */
+}
+
+.plan-card h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4A4A4A;
+}
+
+.plan-card p {
+    font-size: 16px;
+    color: #757575;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #13212E;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 12px;
+}
+

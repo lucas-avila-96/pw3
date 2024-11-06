@@ -3,14 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package facade;
-import jakarta.persistence.TypedQuery;
 
 import entities.Users;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  *
@@ -31,7 +33,7 @@ public class UsersFacade extends AbstractFacade<Users> {
         super(Users.class);
     }
     
-     public Users loginUser(String dni, String password) {
+         public Users loginUser(String dni, String password) {
     TypedQuery<Users> query = em.createQuery(
         "SELECT u FROM Users u WHERE u.dni = :dni AND u.password = :password", Users.class);
     query.setParameter("dni", dni);
@@ -73,5 +75,26 @@ public class UsersFacade extends AbstractFacade<Users> {
         em.persist(usuario);
         return true; // Registro exitoso
     }
-}
+    
+    
+        public Users findUserByDni(String dni) {
+        try {
+            return em.createQuery("SELECT u FROM Users u WHERE u.dni = :dni", Users.class)
+                     .setParameter("dni", dni)
+                     .getSingleResult();
+        } catch (Exception e) {
+            return null; // Devuelve null si no encuentra el usuario
+        }
+    }
 
+    public List<Users> findUsersWithReservationsOnDate(LocalDate date) {
+        return em.createQuery("SELECT u FROM Users u JOIN u.reservations r WHERE r.reservationDate = :date", Users.class)
+                 .setParameter("date", date)
+                 .getResultList();
+    }
+       
+
+    
+
+    
+}
