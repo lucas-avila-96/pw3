@@ -79,8 +79,6 @@ public class Users implements Serializable {
     private String userType;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Subscriptions> subscriptionsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserReservations> userReservationsCollection;
 
     public Users() {
     }
@@ -161,15 +159,6 @@ public class Users implements Serializable {
 
     public void setSubscriptionsCollection(Collection<Subscriptions> subscriptionsCollection) {
         this.subscriptionsCollection = subscriptionsCollection;
-    }
-
-    @XmlTransient
-    public Collection<UserReservations> getUserReservationsCollection() {
-        return userReservationsCollection;
-    }
-
-    public void setUserReservationsCollection(Collection<UserReservations> userReservationsCollection) {
-        this.userReservationsCollection = userReservationsCollection;
     }
 
     @Override

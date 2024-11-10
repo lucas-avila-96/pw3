@@ -12,6 +12,10 @@
         <servlet-name>AdminController</servlet-name>
         <servlet-class>controllers.AdminController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReservationController</servlet-name>
+        <servlet-class>controllers.ReservationController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PlanController</servlet-name>
         <url-pattern>/plans</url-pattern>
@@ -47,6 +51,26 @@
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/misClases</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ReservationController</servlet-name>
+        <url-pattern>/scheduleTraining</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ReservationController</servlet-name>
+        <url-pattern>/listReservations</url-pattern>
+    </servlet-mapping>
+    
+        <servlet-mapping>
+        <servlet-name>ReservationController</servlet-name>
+        <url-pattern>/createReservation</url-pattern>
+    </servlet-mapping>
+    
+        <servlet-mapping>
+        <servlet-name>ReservationController</servlet-name>
+        <url-pattern>/listReservation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

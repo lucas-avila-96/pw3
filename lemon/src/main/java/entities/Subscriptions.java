@@ -33,7 +33,8 @@ import java.util.Date;
     @NamedQuery(name = "Subscriptions.findAll", query = "SELECT s FROM Subscriptions s"),
     @NamedQuery(name = "Subscriptions.findBySubscriptionId", query = "SELECT s FROM Subscriptions s WHERE s.subscriptionId = :subscriptionId"),
     @NamedQuery(name = "Subscriptions.findByStartDate", query = "SELECT s FROM Subscriptions s WHERE s.startDate = :startDate"),
-    @NamedQuery(name = "Subscriptions.findByExpirationDate", query = "SELECT s FROM Subscriptions s WHERE s.expirationDate = :expirationDate")})
+    @NamedQuery(name = "Subscriptions.findByExpirationDate", query = "SELECT s FROM Subscriptions s WHERE s.expirationDate = :expirationDate"),
+    @NamedQuery(name = "Subscriptions.findByRemainingClasses", query = "SELECT s FROM Subscriptions s WHERE s.remainingClasses = :remainingClasses")})
 public class Subscriptions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +53,8 @@ public class Subscriptions implements Serializable {
     @Column(name = "expiration_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
+    @Column(name = "remaining_classes")
+    private Integer remainingClasses;
     @JoinColumn(name = "plan_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Plans planId;
@@ -94,6 +97,14 @@ public class Subscriptions implements Serializable {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public Integer getRemainingClasses() {
+        return remainingClasses;
+    }
+
+    public void setRemainingClasses(Integer remainingClasses) {
+        this.remainingClasses = remainingClasses;
     }
 
     public Plans getPlanId() {

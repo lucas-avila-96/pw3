@@ -4,7 +4,7 @@ import entities.Plans;
 import entities.Subscriptions;
 import entities.Users;
 import facade.SubscriptionsFacade;
-import facade.UsersFacade; // Importar el UserFacade
+import facade.UsersFacade;
 import jakarta.annotation.Resource;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -125,10 +125,13 @@ public class UserController extends HttpServlet {
                             if (plan != null) {
                                 int classQuantity = plan.getClassQuantity(); // Cantidad de clases del plan
                                 Date expirationDate = subscription.getExpirationDate(); // Fecha de vencimiento de la suscripción
+                                int classAvailable = subscription.getRemainingClasses(); // clases disponibles
 
                                 // Pasamos la cantidad de clases y fecha de vencimiento al JSP
                                 request.setAttribute("classQuantity", classQuantity);
                                 request.setAttribute("expirationDate", expirationDate);
+                                request.setAttribute("classAvailable", classAvailable);
+
 
                                 url = "/WEB-INF/views/clientHome.jsp"; // Redirigimos a la página de inicio
                             } else {

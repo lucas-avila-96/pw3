@@ -21,13 +21,13 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="/clientHome" class="nav-link active" aria-current="page">
+                        <a href="#" class="nav-link active" aria-current="page">
                             <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
                             Inicio
                         </a>
                     </li>
                     <li>
-                        <a href="/reservas" class="nav-link text-white">
+                        <a href="listReservations" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16"><use xlink:href="#calendar"></use></svg>
                             Mis Reservas
                         </a>
@@ -52,22 +52,38 @@
     <h1 class="mb-4">Bienvenido, ${userName} a Lemon</h1>
                 <!-- Aquí puedes agregar más contenido relacionado con la página de inicio del cliente -->
                 <div class="card">
-                    <div class="card-body">
-                        <!-- Muestra la cantidad de clases -->
-                        <p class="card-text">Clases disponibles: ${classQuantity}</p>
+    <div class="card-body">
+        <!-- Muestra la cantidad de clases -->
+        <p class="card-text">Clases disponibles: ${classQuantity}</p>
 
-                        <!-- Muestra la fecha de vencimiento -->
-                        <p class="card-text">Fecha de vencimiento: ${expirationDate}</p>
+        <!-- Muestra las clases restantes -->
+        <p class="card-text">Clases restantes: ${classAvailable}</p>
 
-                        <!-- Mensaje en caso de que no haya clases disponibles o el plan no esté disponible -->
-                        <c:if test="${not empty message}">
-                            <p class="text-danger">${message}</p>
-                        </c:if>
-                    </div>
+        <!-- Barra de progreso -->
+        <div class="progress">
+            
+        </div>
+
+        <!-- Muestra la fecha de vencimiento -->
+        <p class="card-text">Fecha de vencimiento: ${expirationDate}</p>
+
+        <!-- Mensaje en caso de que no haya clases disponibles o el plan no esté disponible -->
+        <c:if test="${not empty message}">
+            <p class="text-danger">${message}</p>
+        </c:if>
+            
+            <div class="card programar-entrenamiento">
+        <a href="scheduleTraining" class="btn-programar">
+            Programar Entrenamientos
+        </a>
+    </div>
+    </div>
+</div>
+
                 </div>
 
             </div>
-        </div>
+    
 
         <!-- Incluye los scripts de Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
