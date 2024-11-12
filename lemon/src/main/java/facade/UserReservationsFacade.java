@@ -34,24 +34,27 @@ public class UserReservationsFacade extends AbstractFacade<UserReservations> {
     public UserReservationsFacade() {
         super(UserReservations.class);
     }
-        public List<UserReservations> getAttendanceForToday() {
+
+    public List<UserReservations> getAttendanceForToday() {
         Date today = new Date();
         return em.createQuery("SELECT ur FROM UserReservations ur WHERE DATE(ur.reservationDate) = DATE(:today)", UserReservations.class)
-                 .setParameter("today", today)
+                .setParameter("today", today)
+                .getResultList();
+    }
+// Método para obtener la lista de reservas de un usuario por ID
+public List<UserReservations> getReservationsByUserId(int userId) {
+    try {
+        return em.createQuery("SELECT s FROM UserReservations s WHERE s.userId.id = :userId", UserReservations.class)
+                 .setParameter("userId", userId)
                  .getResultList();
+    } catch (Exception e) {
+        System.out.println("Error al obtener las reservas: " + e.getMessage());
+        return null; // Si no encuentra reservas, retorna null
     }
-        
-           // Método para obtener las reservas de un usuario por ID
-    public List<UserReservations> getReservationsByUserId(int userId) {
-        TypedQuery<UserReservations> query = em.createQuery(
-            "SELECT r FROM UserReservation r WHERE r.user.id = :userId ORDER BY r.reservationDate DESC",
-            UserReservations.class
-        );
-        query.setParameter("userId", userId);
+}
 
-        return query.getResultList();
-    }
-    
+
+
     // Método para crear una reserva
     @Transactional
     public boolean createReservation(int userId, int scheduleId, String reservationDate, String reservationTime) throws java.text.ParseException {
@@ -63,19 +66,15 @@ public class UserReservationsFacade extends AbstractFacade<UserReservations> {
         }
         // Formatear la fecha y hora
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
         Date formattedDate = dateFormatter.parse(reservationDate);
-        Date formattedTime = timeFormatter.parse(reservationTime);
         // Crear la reserva
         UserReservations reservation = new UserReservations();
         reservation.setUserId(user);
         reservation.setScheduleId(schedule);
         reservation.setReservationDate(formattedDate);
-        reservation.setReservationTime(formattedTime);
+        reservation.setReservationTime(reservationTime);
         // Persistir la reserva
         em.persist(reservation);
         return true;
     }
 }
-
-

@@ -5,7 +5,6 @@
 package entities;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,17 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 
 /**
  *
@@ -50,13 +43,9 @@ public class AvailableSchedule implements Serializable {
     @Size(min = 1, max = 9)
     @Column(name = "day", nullable = false, length = 9)
     private String day;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "available_time", nullable = false)
-    @Temporal(TemporalType.TIME)
-    private Date availableTime;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "scheduleId")
-    private Collection<UserReservations> userReservationsCollection;
+    @Size(max = 255)
+    @Column(name = "available_time", length = 255)
+    private String availableTime;
 
     public AvailableSchedule() {
     }
@@ -65,10 +54,9 @@ public class AvailableSchedule implements Serializable {
         this.id = id;
     }
 
-    public AvailableSchedule(Integer id, String day, Date availableTime) {
+    public AvailableSchedule(Integer id, String day) {
         this.id = id;
         this.day = day;
-        this.availableTime = availableTime;
     }
 
     public Integer getId() {
@@ -87,21 +75,12 @@ public class AvailableSchedule implements Serializable {
         this.day = day;
     }
 
-    public Date getAvailableTime() {
+    public String getAvailableTime() {
         return availableTime;
     }
 
-    public void setAvailableTime(Date availableTime) {
+    public void setAvailableTime(String availableTime) {
         this.availableTime = availableTime;
-    }
-
-    @XmlTransient
-    public Collection<UserReservations> getUserReservationsCollection() {
-        return userReservationsCollection;
-    }
-
-    public void setUserReservationsCollection(Collection<UserReservations> userReservationsCollection) {
-        this.userReservationsCollection = userReservationsCollection;
     }
 
     @Override

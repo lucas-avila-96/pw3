@@ -17,7 +17,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
@@ -42,16 +42,12 @@ public class UserReservations implements Serializable {
     @Basic(optional = false)
     @Column(name = "reservation_id", nullable = false)
     private Integer reservationId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "reservation_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "reservation_date")
+    @Temporal(TemporalType.DATE)
     private Date reservationDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "reservation_time", nullable = false)
-    @Temporal(TemporalType.TIME)
-    private Date reservationTime;
+    @Size(max = 255)
+    @Column(name = "reservation_time", length = 255)
+    private String reservationTime;
     @JoinColumn(name = "schedule_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private AvailableSchedule scheduleId;
@@ -64,12 +60,6 @@ public class UserReservations implements Serializable {
 
     public UserReservations(Integer reservationId) {
         this.reservationId = reservationId;
-    }
-
-    public UserReservations(Integer reservationId, Date reservationDate, Date reservationTime) {
-        this.reservationId = reservationId;
-        this.reservationDate = reservationDate;
-        this.reservationTime = reservationTime;
     }
 
     public Integer getReservationId() {
@@ -88,11 +78,11 @@ public class UserReservations implements Serializable {
         this.reservationDate = reservationDate;
     }
 
-    public Date getReservationTime() {
+    public String getReservationTime() {
         return reservationTime;
     }
 
-    public void setReservationTime(Date reservationTime) {
+    public void setReservationTime(String reservationTime) {
         this.reservationTime = reservationTime;
     }
 

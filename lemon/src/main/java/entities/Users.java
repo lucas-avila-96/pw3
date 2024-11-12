@@ -5,7 +5,6 @@
 package entities;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,15 +12,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  *
@@ -77,8 +73,6 @@ public class Users implements Serializable {
     @Size(max = 6)
     @Column(name = "user_type", length = 6)
     private String userType;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<Subscriptions> subscriptionsCollection;
 
     public Users() {
     }
@@ -150,15 +144,6 @@ public class Users implements Serializable {
 
     public void setUserType(String userType) {
         this.userType = userType;
-    }
-
-    @XmlTransient
-    public Collection<Subscriptions> getSubscriptionsCollection() {
-        return subscriptionsCollection;
-    }
-
-    public void setSubscriptionsCollection(Collection<Subscriptions> subscriptionsCollection) {
-        this.subscriptionsCollection = subscriptionsCollection;
     }
 
     @Override

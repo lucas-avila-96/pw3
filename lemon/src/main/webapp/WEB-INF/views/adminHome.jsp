@@ -49,18 +49,6 @@
                     <input type="hidden" name="action" value="listAttendance">
                     <button type="submit" class="btn btn-info w-100">Ver Asistencia</button>
                 </form>
-
-                <c:if test="${not empty attendanceList}">
-                    <h5 class="mt-3">Asistencia del Día:</h5>
-                    <ul class="list-group">
-                        <c:forEach var="attendance" items="${attendanceList}">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>${attendance.userName}</span>
-                                <span class="badge bg-secondary">${attendance.time}</span>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </c:if>
             </div>
         </div>
 
