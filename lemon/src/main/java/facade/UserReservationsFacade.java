@@ -10,7 +10,6 @@ import entities.Users;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,18 +41,17 @@ public class UserReservationsFacade extends AbstractFacade<UserReservations> {
                 .getResultList();
     }
 // Método para obtener la lista de reservas de un usuario por ID
-public List<UserReservations> getReservationsByUserId(int userId) {
-    try {
-        return em.createQuery("SELECT s FROM UserReservations s WHERE s.userId.id = :userId", UserReservations.class)
-                 .setParameter("userId", userId)
-                 .getResultList();
-    } catch (Exception e) {
-        System.out.println("Error al obtener las reservas: " + e.getMessage());
-        return null; // Si no encuentra reservas, retorna null
+
+    public List<UserReservations> getReservationsByUserId(int userId) {
+        try {
+            return em.createQuery("SELECT s FROM UserReservations s WHERE s.userId.id = :userId", UserReservations.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("Error al obtener las reservas: " + e.getMessage());
+            return null; // Si no encuentra reservas, retorna null
+        }
     }
-}
-
-
 
     // Método para crear una reserva
     @Transactional
@@ -77,4 +75,19 @@ public List<UserReservations> getReservationsByUserId(int userId) {
         em.persist(reservation);
         return true;
     }
+
+    public boolean cancelReservation(int reservationId) {
+    try {
+        UserReservations reservation = em.find(UserReservations.class, reservationId);
+        if (reservation != null) {
+            em.remove(reservation); // No es necesario comenzar o confirmar la transacción con JTA
+            return true;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+
 }

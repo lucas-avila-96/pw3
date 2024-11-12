@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "ReservationController", urlPatterns = {"/createReservation", "/listReservations", "/scheduleTraining"})
+@WebServlet(name = "ReservationController", urlPatterns = {"/createReservation", "/listReservations", "/scheduleTraining", "/cancelReservation"})
 public class ReservationController extends HttpServlet {
 
     @Inject
@@ -101,13 +101,11 @@ public class ReservationController extends HttpServlet {
                     }
 
                     // Redirigir al JSP de reserva
-                    url = "/WEB-INF/views/clientHome.jsp";
+                    url = "/WEB-INF/views/layout.jsp";
                     break;
                 case "/listReservations":
-                    
-
                     // Obtener las reservas del usuario
-                    List<UserReservations> reservations = (List<UserReservations>) reservationsFacade.getReservationsByUserId(userId);
+                    List<UserReservations> reservations = reservationsFacade.getReservationsByUserId(userId);
                     System.out.println("Reservations: " + reservations); // Verificar contenido de reservas
 
                     if (reservations != null && !reservations.isEmpty()) {
@@ -116,8 +114,38 @@ public class ReservationController extends HttpServlet {
                         request.setAttribute("message", "No tienes reservas activas.");
                     }
 
+                    // Especifica que el contenido será `listReservations.jsp`
+                    request.setAttribute("content", "listReservations.jsp");
+
+                    // Redirige a la plantilla base con el sidebar
+                    url = "/WEB-INF/views/layout.jsp";
+                    break;
+
+                case "/cancelReservation":
+                    String reservationIdStr = request.getParameter("reservationId");
+                    System.out.println("Reservations: " + reservationIdStr); // Verificar contenido de reservas
+
+                    if (reservationIdStr != null && !reservationIdStr.isEmpty()) {
+                        try {
+                            int reservationId = Integer.parseInt(reservationIdStr);
+
+                            // Cancelar la reserva llamando al método en reservationsFacade
+                            boolean cancelled = reservationsFacade.cancelReservation(reservationId);
+
+                            if (cancelled) {
+                                request.setAttribute("message", "Reserva cancelada exitosamente.");
+                            } else {
+                                request.setAttribute("message", "No se pudo cancelar la reserva. Verifica el ID.");
+                            }
+                        } catch (NumberFormatException e) {
+                            request.setAttribute("message", "ID de reserva no válido.");
+                        }
+                    } else {
+                        request.setAttribute("message", "ID de reserva no proporcionado.");
+                    }
+
                     // Redirigir al JSP de listado de reservas
-                    url = "/WEB-INF/views/listReservations.jsp";
+                    url = "/listReservations"; // Redirige a la página de reservas para mostrar el resultado
                     break;
 
             }

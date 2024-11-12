@@ -104,7 +104,6 @@ public class UserController extends HttpServlet {
                     break;
 
                 case "/misClases":
-
                     Integer userId = (Integer) request.getSession().getAttribute("userId");
                     System.out.println(userId);
 
@@ -116,37 +115,35 @@ public class UserController extends HttpServlet {
                         Subscriptions subscription = subscriptionFacade.getSubscriptionByUserId(userId);
 
                         if (subscription != null) {
-                            // Pasamos la suscripción completa al JSP
                             request.setAttribute("subscription", subscription);
-
-                            // Obtener el plan desde la suscripción
-                            Plans plan = subscription.getPlanId(); // Aquí accedemos al objeto Plan
+                            Plans plan = subscription.getPlanId();
 
                             if (plan != null) {
-                                int classQuantity = plan.getClassQuantity(); // Cantidad de clases del plan
-                                Date expirationDate = subscription.getExpirationDate(); // Fecha de vencimiento de la suscripción
-                                int classAvailable = subscription.getRemainingClasses(); // clases disponibles
+                                int classQuantity = plan.getClassQuantity();
+                                Date expirationDate = subscription.getExpirationDate();
+                                int classAvailable = subscription.getRemainingClasses();
 
-                                // Pasamos la cantidad de clases y fecha de vencimiento al JSP
                                 request.setAttribute("classQuantity", classQuantity);
                                 request.setAttribute("expirationDate", expirationDate);
                                 request.setAttribute("classAvailable", classAvailable);
 
-
-                                url = "/WEB-INF/views/clientHome.jsp"; // Redirigimos a la página de inicio
+                                // Especifica que el contenido será `clientHome.jsp`
+                                request.setAttribute("content", "clientHome.jsp");
                             } else {
                                 request.setAttribute("message", "El plan de tu suscripción no está disponible.");
-                                url = "/WEB-INF/views/clientHome.jsp";
+                                request.setAttribute("content", "clientHome.jsp");
                             }
                         } else {
-                            // Si no hay suscripción, mostramos un mensaje
                             request.setAttribute("message", "No tienes ninguna suscripción activa.");
-                            url = "/WEB-INF/views/clientHome.jsp";
+                            request.setAttribute("content", "clientHome.jsp");
                         }
                     } else {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "User ID is required");
                         return;
                     }
+
+                    // Redirige a la plantilla base con el sidebar
+                    url = "/WEB-INF/views/layout.jsp";
                     break;
 
             }

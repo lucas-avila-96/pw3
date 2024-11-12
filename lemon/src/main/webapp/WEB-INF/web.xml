@@ -72,6 +72,11 @@
         <servlet-name>ReservationController</servlet-name>
         <url-pattern>/listReservation</url-pattern>
     </servlet-mapping>
+    
+     <servlet-mapping>
+        <servlet-name>ReservationController</servlet-name>
+        <url-pattern>/cancelReservation</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
