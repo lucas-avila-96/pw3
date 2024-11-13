@@ -39,17 +39,6 @@
             </div>
         </div>
 
-        <!-- Listar asistencia del día -->
-        <div class="card mt-4">
-            <div class="card-header">
-                Asistencia del Día
-            </div>
-            <div class="card-body">
-                <form action="adminController" method="POST" class="mb-3">
-                    <input type="hidden" name="action" value="listAttendance">
-                    <button type="submit" class="btn btn-info w-100">Ver Asistencia</button>
-                </form>
-            </div>
         </div>
 
     </div>

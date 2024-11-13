@@ -2,6 +2,8 @@ package controllers;
 
 import entities.Users;
 import entities.Plans;
+import entities.Subscriptions;
+
 import facade.UsersFacade;
 import facade.PlansFacade;
 import facade.SubscriptionsFacade;
@@ -103,13 +105,30 @@ public class AdminController extends HttpServlet {
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public boolean loadSubscriptionForUser(String userId, String planId) {
     try {
-        return subscriptionFacade.assignSubscriptionToUser(userId, planId);
+        
+        subscriptionFacade.removeExpiredSubscriptions();        
+        int userIdInt = Integer.parseInt(userId);
+        Subscriptions activeSubscription = (Subscriptions) subscriptionFacade.findActiveSubscriptionByUserId(userIdInt);
+        
+        if (activeSubscription != null) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.INFO, "El usuario ya tiene una suscripción activa.");
+            return false;
+        }
+        
+        boolean assigned = subscriptionFacade.assignSubscriptionToUser(userId, planId);
+        
+        if (assigned){
+            return true;
+        }
+        
+        
+        
     } catch (Exception e) {
         Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, "Error al cargar el abono", e);
         return false;
     }
+        return false;
 }
-
 
     @Override
     public String getServletInfo() {

@@ -11,6 +11,7 @@ import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -44,10 +45,17 @@ public boolean assignSubscriptionToUser(String userId, String planId) {
         if (user == null) {
             return false; // Usuario no encontrado
         }
+        
+        Plans plan = em.find(Plans.class, Integer.valueOf(planId));
+        if (plan == null) {
+            return false; // Plan no encontrado
+        }
 
         Subscriptions subscription = new Subscriptions();
         subscription.setUserId(user);
         subscription.setPlanId(em.find(Plans.class, Integer.valueOf(planId)));
+        subscription.setRemainingClasses(plan.getClassQuantity());
+
 
         // Establecer fecha de inicio (fecha actual)
         subscription.setStartDate(convertToDate(LocalDate.now()));
@@ -76,6 +84,23 @@ public Subscriptions getSubscriptionByUserId(int userId) {
     }
 }
 
+public Subscription findActiveSubscriptionByUserId(int userId) {
+    try {
+        String query = "SELECT s FROM Subscriptions s WHERE s.userId.id = :userId AND (s.expirationDate > CURRENT_DATE OR s.remainingClasses > 0)";
+        return em.createQuery(query, Subscription.class)
+                            .setParameter("userId", userId)
+                            .setMaxResults(1)
+                            .getSingleResult();
+    } catch (NoResultException e) {
+        return null; // No hay suscripción activa
+    }
+    
+    
+    
+    
+}
+
+
 
 
     // Método para obtener la cantidad de clases de un plan
@@ -87,6 +112,16 @@ public Subscriptions getSubscriptionByUserId(int userId) {
             return 0; // Si no encuentra el plan, retorna 0
         }
     }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+public void removeExpiredSubscriptions() {
+    try {
+        String query = "DELETE FROM Subscriptions s WHERE s.expirationDate <= CURRENT_DATE OR s.remainingClasses <= 0";
+        em.createQuery(query).executeUpdate();
+    } catch (Exception e) {
+        System.out.println("Error al eliminar la suscripción: " + e.getMessage());
+    }
+}
 
 
 // Método auxiliar para convertir LocalDate a Date
